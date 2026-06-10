@@ -1,0 +1,17 @@
+{
+  "compilerOptions":
+   {
+    "target": "ES2020",
+    "module": "CommonJS",
+
+    "types": ["node", "@playwright/test"],
+
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowArbitraryExtensions": true,
+
+    "strict": false,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
