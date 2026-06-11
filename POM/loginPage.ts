@@ -72,7 +72,7 @@ export class Loginpage {
     }
 
     async verifyValidationLogin() {
-        // ✅ Waits automatically for visibility
+        
         await expect(this.myinfo).toBeVisible();
     }
 
