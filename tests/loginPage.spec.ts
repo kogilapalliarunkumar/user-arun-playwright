@@ -18,8 +18,8 @@ test.describe('Login Test Functionality', () => {
                     {
                     await loginPage.verifyValidationLogin();
                    });
-
-                console.log(`Login successful - Username: ${data.Username}`);
+                
+                console.log(`Login Successful - Username: ${data.Username}, Password: ${data.Password}`);
 
                } 
             else 
@@ -30,7 +30,8 @@ test.describe('Login Test Functionality', () => {
                     await loginPage.verifyinvalidLogin()
                    });
 
-                console.log(`Login failed - Username: ${data.Username}`);
+                console.log(`Login failed - Username: ${data.Username}, Password: ${data.Password}`);
+
             }
         });
     }
