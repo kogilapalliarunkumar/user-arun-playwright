@@ -27,7 +27,7 @@ test.describe('Login Test Functionality', () => {
 
                    await test.step('Verify invalid login', async () =>
                      {
-                    await loginPage.verifyinvalidLogin()
+                    await loginPage.verifyInvalidLogin()
                    });
 
                 console.log(`Login failed - Username: ${data.Username}, Password: ${data.Password}`);

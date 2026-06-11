@@ -1,0 +1,101 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: loginPage.spec.ts >> Login Test Functionality >> Login 3 | invalid | Admin
+- Location: tests\loginPage.spec.ts:8:13
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: locator('//*[@id="app"]/div[1]/div/div[1]/div/div[2]/div[2]/div/div[1]/div[1]/p')
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for locator('//*[@id="app"]/div[1]/div/div[1]/div/div[2]/div[2]/div/div[1]/div[1]/p')
+    - waiting for" https://opensource-demo.orangehrmlive.com/web/index.php/auth/validate" navigation to finish...
+
+```
+
+```yaml
+- img "company-branding"
+- heading "Login" [level=5]
+- paragraph: "Username : Admin"
+- paragraph: "Password : admin123"
+- text:  Username
+- textbox "Username": Admin
+- text:  Password
+- textbox "Password": "123"
+- button "Login"
+- paragraph: Forgot your password?
+- link:
+  - /url: https://www.linkedin.com/company/orangehrm/mycompany/
+- link:
+  - /url: https://www.facebook.com/OrangeHRM/
+- link:
+  - /url: https://twitter.com/orangehrm?lang=en
+- link:
+  - /url: https://www.youtube.com/c/OrangeHRMInc
+- paragraph: OrangeHRM OS 5.8
+- paragraph:
+  - text: © 2005 - 2026
+  - link "OrangeHRM, Inc":
+    - /url: http://www.orangehrm.com
+  - text: . All rights reserved.
+- img "orangehrm-logo"
+```
+
+# Test source
+
+```ts
+  1  | import { Page, Locator, expect } from '@playwright/test';
+  2  | 
+  3  | export class Loginpage {
+  4  |     readonly page: Page;
+  5  |     readonly usernameInput: Locator;
+  6  |     readonly passwordInput: Locator;
+  7  |     readonly loginButton: Locator;
+  8  |     readonly myinfo: Locator;
+  9  |     readonly errorMessage:Locator;
+  10 | 
+  11 |     constructor(page: Page) {
+  12 |         this.page = page;
+  13 |         this.usernameInput = page.locator('//input[@name="username"]');
+  14 |         this.passwordInput = page.locator('//input[@name="password"]');
+  15 |         this.loginButton = page.locator('//button[@type="submit"]');
+  16 |         this.myinfo = page.locator('//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[6]/a/span');
+  17 |         this.errorMessage=page.locator('//*[@id="app"]/div[1]/div/div[1]/div/div[2]/div[2]/div/div[1]/div[1]/p');
+  18 | 
+  19 |     
+  20 |     }
+  21 |      async login(username:string,password:string)
+  22 |      {
+  23 |         await this.usernameInput.fill(username);
+  24 |         await this.passwordInput.fill(password);
+  25 |         await this.loginButton.click();
+  26 |      }
+  27 |     async verifyValidationLogin()
+  28 |     {
+  29 |         await expect(this.myinfo).toBeVisible();
+  30 |     }
+  31 |     async verifyinvalidLogin()
+  32 |     {
+> 33 |         await expect(this.errorMessage).toBeVisible();
+     |                                         ^ Error: expect(locator).toBeVisible() failed
+  34 |     }
+  35 | }
+  36 | 
+```

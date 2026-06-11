@@ -15,6 +15,6 @@ export const test = base.extend<myFixture>({
 
         await use(loginPage);
 
-        await page.waitForTimeout(3000);
+        //await page.waitForTimeout(3000);
     },
 });
