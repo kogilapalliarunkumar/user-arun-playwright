@@ -1,0 +1,171 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: jQueryMenu.spec.ts >> JQuery UI Menu Tests >> Navigate to Downloads -> PDF
+- Location: tests\jQueryMenu.spec.ts:10:7
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.waitFor: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for locator('iframe')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - link "Fork me on GitHub":
+    - /url: https://github.com/tourdedave/the-internet
+    - img "Fork me on GitHub" [ref=e5] [cursor=pointer]
+  - generic [ref=e7]:
+    - heading "JQueryUI - Menu" [level=3] [ref=e8]
+    - generic [ref=e9]:
+      - paragraph [ref=e10]:
+        - link "JQuery UI Menus" [ref=e11] [cursor=pointer]:
+          - /url: http://api.jqueryui.com/menu/
+        - text: are a nice UI element from a user perspective, but poses an interesting automation challenge since it requires mouse operations and synchronization between them.
+      - paragraph [ref=e12]: Another 'fun' aspect is that the visibility of elements is actually not in the html itself, but done magically by JQuery so you cannot trust exactly what the html is telling you. A user cannot fire click events at certain UI elements, but you might -- if you have a big enough hammer to hit it with.
+      - menu [ref=e13]:
+        - menuitem "Disabled" [disabled] [ref=e14]:
+          - link "Disabled" [disabled] [ref=e16]:
+            - /url: "#"
+        - menuitem "Enabled" [ref=e17]:
+          - link "Enabled" [ref=e19] [cursor=pointer]:
+            - /url: "#"
+  - generic [ref=e21]:
+    - separator [ref=e22]
+    - generic [ref=e23]:
+      - text: Powered by
+      - link "Elemental Selenium" [ref=e24] [cursor=pointer]:
+        - /url: http://elementalselenium.com/
+```
+
+# Test source
+
+```ts
+  1   | import { Page, Locator, expect, FrameLocator } from '@playwright/test';
+  2   | 
+  3   | export class JQueryMenuPage {
+  4   |   readonly page: Page;
+  5   |   readonly frame: FrameLocator;
+  6   | 
+  7   |   readonly enabledMenu: Locator;
+  8   |   readonly downloadsMenu: Locator;
+  9   |   readonly pdfOption: Locator;
+  10  |   readonly csvOption: Locator;
+  11  |   readonly excelOption: Locator;
+  12  | 
+  13  |   readonly jqueryLink: Locator;
+  14  | 
+  15  |   constructor(page: Page) {
+  16  |     this.page = page;
+  17  | 
+  18  |     // ✅ iframe reference
+  19  |     this.frame = page.frameLocator('iframe');
+  20  | 
+  21  |     // ✅ Stable locators inside iframe
+  22  |     this.enabledMenu = this.frame.locator('text=Enabled').first();
+  23  |     this.downloadsMenu = this.frame.locator('text=Downloads').first();
+  24  | 
+  25  |     this.pdfOption = this.frame.locator('text=PDF').first();
+  26  |     this.csvOption = this.frame.locator('text=CSV').first();
+  27  |     this.excelOption = this.frame.locator('text=Excel').first();
+  28  | 
+  29  |     // ✅ Main page locator
+  30  |     this.jqueryLink = page.locator('text=JQuery UI Menus');
+  31  |   }
+  32  | 
+  33  |   // ✅ Navigate to page
+  34  |   async navigate() {
+  35  |     await this.page.goto('https://the-internet.herokuapp.com/jqueryui/menu');
+  36  |   }
+  37  | 
+  38  |   // ✅ Verify page loaded
+  39  |   async verifyPageLoaded() {
+  40  |     await expect(this.jqueryLink).toBeVisible();
+  41  |   }
+  42  | 
+  43  |   // ✅ Ensure iframe is READY before actions
+  44  |   async ensureFrameReady() {
+  45  |     await this.page.waitForLoadState('domcontentloaded');
+  46  | 
+  47  |     const iframe = this.page.locator('iframe');
+> 48  |     await iframe.waitFor({ state: 'attached' });
+      |                  ^ Error: locator.waitFor: Test timeout of 30000ms exceeded.
+  49  | 
+  50  |     // wait until frame DOM is ready
+  51  |     await this.frame.locator('body').waitFor();
+  52  |   }
+  53  | 
+  54  |   // ✅ Hover "Enabled"
+  55  |   async hoverEnabled() {
+  56  |     await this.ensureFrameReady();
+  57  | 
+  58  |     await this.enabledMenu.waitFor({ state: 'visible' });
+  59  |     await this.enabledMenu.hover();
+  60  | 
+  61  |     // 🔥 Needed for jQuery menus
+  62  |     await this.page.waitForTimeout(300);
+  63  |   }
+  64  | 
+  65  |   // ✅ Hover "Downloads"
+  66  |   async hoverDownloads() {
+  67  |     await this.downloadsMenu.waitFor({ state: 'visible' });
+  68  |     await this.downloadsMenu.hover();
+  69  | 
+  70  |     // 🔥 stabilizes submenu
+  71  |     await this.page.waitForTimeout(300);
+  72  |   }
+  73  | 
+  74  |   // ✅ Click options
+  75  |   async clickPDF() {
+  76  |     await this.pdfOption.waitFor({ state: 'visible' });
+  77  |     await this.pdfOption.click();
+  78  |   }
+  79  | 
+  80  |   async clickCSV() {
+  81  |     await this.csvOption.waitFor({ state: 'visible' });
+  82  |     await this.csvOption.click();
+  83  |   }
+  84  | 
+  85  |   async clickExcel() {
+  86  |     await this.excelOption.waitFor({ state: 'visible' });
+  87  |     await this.excelOption.click();
+  88  |   }
+  89  | 
+  90  |   // ✅ Reusable navigation method (BEST PRACTICE)
+  91  |   async navigateTo(option: 'PDF' | 'CSV' | 'Excel') {
+  92  |     await this.hoverEnabled();
+  93  |     await this.hoverDownloads();
+  94  | 
+  95  |     if (option === 'PDF') {
+  96  |       await this.clickPDF();
+  97  |     } else if (option === 'CSV') {
+  98  |       await this.clickCSV();
+  99  |     } else {
+  100 |       await this.clickExcel();
+  101 |     }
+  102 |   }
+  103 | 
+  104 |   // ✅ Optional navigation check
+  105 |   async verifyNavigationToJQuery() {
+  106 |     await expect(this.page).toHaveURL(/jqueryui/);
+  107 |   }
+  108 | 
+  109 |   async clickJQueryLink() {
+  110 |     await this.jqueryLink.click();
+  111 |   }
+  112 | }
+```
