@@ -15,7 +15,7 @@ test('Upload file debug', async ({ page }) => {
   await page.goto('https://the-internet.herokuapp.com/upload');
 
   await page.setInputFiles('#file-upload', filePath);
-
+  
   await page.click('#file-submit');
 
   await expect(page.locator('#uploaded-files'))
