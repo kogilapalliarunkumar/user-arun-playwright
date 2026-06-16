@@ -1,0 +1,81 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: floatingMenu.spec.ts >> Floating Menu Tests >> Verify menu links are clickable
+- Location: tests\floatingMenu.spec.ts:17:7
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for locator('text=Home')
+
+```
+
+# Test source
+
+```ts
+  1  | import { Page, Locator, expect } from '@playwright/test';
+  2  | 
+  3  | export class FloatingMenuPage {
+  4  |   readonly page: Page;
+  5  |   readonly homeLink: Locator;
+  6  |   readonly newsLink: Locator;
+  7  |   readonly contactLink: Locator;
+  8  |   readonly aboutLink: Locator;
+  9  |   readonly menuBar: Locator;
+  10 | 
+  11 |   constructor(page: Page) {
+  12 |     this.page = page;
+  13 |     this.menuBar = page.locator('#menu');
+  14 |     this.homeLink = page.locator('text=Home');
+  15 |     this.newsLink = page.locator('text=News');
+  16 |     this.contactLink = page.locator('text=Contact');
+  17 |     this.aboutLink = page.locator('text=About');
+  18 |   }
+  19 | 
+  20 |   async navigate() {
+  21 |     await this.page.goto('https://the-internet.herokuapp.com/');
+  22 |   }
+  23 | 
+  24 |   async verifyMenuVisible() {
+  25 |     await expect(this.menuBar).toBeVisible();
+  26 |   }
+  27 | 
+  28 |   async clickHome() {
+> 29 |     await this.homeLink.click();
+     |                         ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  30 |   }
+  31 | 
+  32 |   async clickNews() {
+  33 |     await this.newsLink.click();
+  34 |   }
+  35 | 
+  36 |   async clickContact() {
+  37 |     await this.contactLink.click();
+  38 |   }
+  39 | 
+  40 |   async clickAbout() {
+  41 |     await this.aboutLink.click();
+  42 |   }
+  43 | 
+  44 |   async scrollPage() {
+  45 |     await this.page.mouse.wheel(0, 1500);
+  46 |   }
+  47 | 
+  48 |   async verifyMenuStillVisibleAfterScroll() {
+  49 |     await expect(this.menuBar).toBeVisible();
+  50 |   }
+  51 | }
+  52 | ``
+```
