@@ -15,4 +15,3 @@ export const test = baseTest.extend<Fixtures>({
     await use(loginPage);
   },
 });
-``
