@@ -7,7 +7,7 @@ test('DELETE Employee by ID', async ({ request }) => {
 
   let response;
 
-  // Retry + SSL fix
+  // Retry 
   for (let i = 0; i < 3; i++) {
     response = await request.delete(apiUrl, {
       ignoreHTTPSErrors: true
