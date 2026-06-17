@@ -9,7 +9,7 @@ export const test = baseTest.extend<Fixtures>({
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
 
-    // ✅ Auto navigation
+    // Auto navigation
     await loginPage.navigate();
 
     await use(loginPage);
