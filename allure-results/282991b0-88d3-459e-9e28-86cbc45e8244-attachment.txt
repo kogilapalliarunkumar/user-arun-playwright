@@ -1,0 +1,29 @@
+Attempt 1 - Status: 200
+
+ Full API Response:
+{
+  "status": "success",
+  "data": "2",
+  "message": "Successfully! Record has been deleted"
+}
+
+========= EXPECTED RESULT =========
+{
+  "status": "success"
+}
+
+========= ACTUAL RESULT =========
+{
+  "status": "success",
+  "message": "Successfully! Record has been deleted"
+}
+
+========= COMPARISON =========
+┌──────────┬───────────┬─────────────────────────────────────────┐
+│ (index)  │ status    │ message                                 │
+├──────────┼───────────┼─────────────────────────────────────────┤
+│ EXPECTED │ 'success' │                                         │
+│ ACTUAL   │ 'success' │ 'Successfully! Record has been deleted' │
+└──────────┴───────────┴─────────────────────────────────────────┘
+
+ Delete Message: Successfully! Record has been deleted
