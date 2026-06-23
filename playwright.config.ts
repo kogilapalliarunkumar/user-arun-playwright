@@ -26,7 +26,7 @@ export default defineConfig({
               ['html',{open: 'always'}
               
               ],
-              ['allure-playwright',{open: 'always'}]
+              ['allure-playwright']
          ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
