@@ -11,7 +11,7 @@ export default defineConfig({
   reporter: [
     ['html', { open: 'never' }],
     ['list'],
-    ['allure-playwright']
+    ['allure-playwright'] //npx allure serve allure-results
   ],
 
   use: {
