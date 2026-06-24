@@ -1,5 +1,0 @@
-⚠️ Rate limited (429). Retrying... Attempt 1
-⚠️ Rate limited (429). Retrying... Attempt 2
-⚠️ Rate limited (429). Retrying... Attempt 3
-⚠️ Rate limited (429). Retrying... Attempt 4
-⚠️ Rate limited (429). Retrying... Attempt 5

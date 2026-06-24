@@ -5,17 +5,21 @@ export class AlertPage {
   readonly contextMenuLink: Locator;
   readonly hotSpotBox: Locator;
 
-  constructor(page: Page)
-   {
+  constructor(page: Page) {
     this.page = page;
     this.contextMenuLink = page.locator('text=Context Menu');
     this.hotSpotBox = page.locator('#hot-spot');
   }
 
-  async navigateToContextMenu()
-   {
+  async navigateToContextMenu() {
     await this.page.goto('https://the-internet.herokuapp.com/');
-    await this.contextMenuLink.click();
+    
+    await Promise.all([
+      this.page.waitForLoadState('load'),  
+      this.contextMenuLink.click()
+    ]);
+
+    await this.page.waitForSelector('#hot-spot');
   }
 
   async rightClickAndValidateAlert() {
@@ -24,6 +28,7 @@ export class AlertPage {
       await dialog.accept();
     });
 
+    await this.hotSpotBox.waitFor(); 
     await this.hotSpotBox.click({ button: 'right' });
   }
 }

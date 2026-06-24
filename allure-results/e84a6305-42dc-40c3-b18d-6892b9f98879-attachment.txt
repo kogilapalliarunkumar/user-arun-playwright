@@ -1,3 +1,0 @@
-Retrying... Attempt 1
-Retrying... Attempt 2
-Retrying... Attempt 3

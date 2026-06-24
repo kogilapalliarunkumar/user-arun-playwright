@@ -1,2 +1,0 @@
-File exists: true
-File path: C:\Users\HLY6JLN\OneDrive - Solventum\Desktop\PlaywrightProject\TestData\Book1.xlsx

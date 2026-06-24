@@ -1,0 +1,2 @@
+Gallery tab is NOT visible
+Gallery tab is visible
