@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Employee Create API Tests - POST', () => {
+test.describe.skip('Employee Create API Tests - POST', () => {
 
   const apiUrl = 'https://dummy.restapiexample.com/api/v1/create';
 

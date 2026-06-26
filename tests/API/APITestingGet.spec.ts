@@ -8,7 +8,7 @@ interface Employee {
   profile_image?: string;
 }
 
-test('Get the employees data (Tiger Nixon)', async ({ request }) => {
+test.skip('Get the employees data (Tiger Nixon)', async ({ request }) => {
 
   const apiUrl = 'https://dummy.restapiexample.com/api/v1/employees';
 

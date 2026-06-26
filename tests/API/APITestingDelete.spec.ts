@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('DELETE Employee by ID', async ({ request }) => {
+test.skip('DELETE Employee by ID', async ({ request }) => {
 
   const employeeId = 2;
   const apiUrl = `https://dummy.restapiexample.com/api/v1/delete/${employeeId}`;

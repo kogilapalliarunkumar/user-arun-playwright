@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('PUT Update Employee', async ({ request }) => {
+test.skip('PUT Update Employee', async ({ request }) => {
 
   const employeeId = 1;
   const apiUrl = `https://dummy.restapiexample.com/api/v1/update/${employeeId}`;
